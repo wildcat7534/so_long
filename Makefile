@@ -1,94 +1,71 @@
-# Name of the library and executable
-LIBRARY = lib$(NAME).a
+NAME = libso_long.a
 
-NAME = so_long
+LIBFT_DIR = libft
 
-HEADERS = mlx_linux/mlx.h include/so_long.h include/ft_printf.h include/libft.h
+LIBFT = $(LIBFT_DIR)/libftprintf.a
+
+HEADERS = so_long.h mlx_linux/mlx.h
+
+SOURCES_SO_LONG = sources_so_long/ft_free_mlx.c sources_so_long/ft_make.c \
+				sources_so_long/ft_parser.c sources_so_long/ft_perso_key.c sources_so_long/ft_perso_mouse.c \
+				sources_so_long/ft_player.c sources_so_long/ft_printer.c sources_so_long/ft_verif_map.c \
+				sources_so_long/ft_verif.c sources_so_long/ft_init.c 
+
+OBJECTS = $(SOURCES_SO_LONG:.c=.o)
 
 PROGRAM = so_long.c
 
 PROGRAMME_OUT = so_long
 
-ARGS = map.ber
+CFLAGS = -Werror -Wall -Wextra -g3 -Imlx_linux
 
-INFO = so_long mlx_linux
+LDFLAGS = -Lmlx_linux -lmlx -lX11 -lXext
 
-SOURCES_LIBFT = sources_ft_printf/ft_printf.c sources_ft_printf/ft_putcharlen.c sources_ft_printf/ft_putnbrhexlen.c \
-		sources_ft_printf/ft_putnbrlen.c sources_ft_printf/ft_putptrlen.c sources_ft_printf/ft_putstrlen.c \
-		sources_libft/ft_strlen.c sources_libft/ft_atoi.c sources_libft/ft_itoa.c sources_libft/ft_isdigit.c \
-		sources_libft/ft_free.c sources_libft/ft_split.c sources_libft/ft_strcmp.c sources_libft/ft_strdup.c \
-		sources_libft/ft_strlcpy.c sources_libft/ft_substr.c sources_libft/ft_nb_words.c
-
-SOURCES_PRINTF = sources_ft_printf/ft_printf.c sources_ft_printf/ft_putcharlen.c sources_ft_printf/ft_putnbrhexlen.c \
-		sources_ft_printf/ft_putnbrlen.c sources_ft_printf/ft_putptrlen.c sources_ft_printf/ft_putstrlen.c
-
-SOURCES_PROGRAM = so_long.c
-
-# Object files generated from source files
-OBJECTS_LIBFT = $(SOURCES_LIBFT:.c=.o) 
-OBJECTS_PRINTF = $(SOURCES_PRINTF:.c=.o)
-OBJECTS_PROGRAM = $(PROGRAM:.c=.o)
-
-# Compiler and flags
 CC = cc
-CFLAGS = -Werror -Wall -Wextra -g3
-CFLAGS_MLX = -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz
 
-# Utility commands
 AR = ar rcs
+
 RM = rm -f
 
-
-# Colors
 DEF_COLOR = \033[0;39m
+GRAY = \033[0;90m
 RED = \033[0;91m
 GREEN = \033[0;92m
 YELLOW = \033[0;93m
 BLUE = \033[0;94m
 MAGENTA = \033[0;95m
 CYAN = \033[0;96m
+WHITE = \033[0;97m
 
-all: $(NAME)
+all: $(PROGRAMME_OUT)
 
-# Rule to compile library files into an archive
-$(LIBRARY): $(OBJECTS_LIBFT) $(OBJECTS_PRINTF)
+$(LIBFT):
+	$(MAKE) -C $(LIBFT_DIR)
+
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(PROGRAMME_OUT): $(LIBFT) $(OBJECTS)
 	@echo "              $(YELLOW) **** >>>>> Compiling: $(INFO) <<<<< **** $(DEF_COLOR)"
-	$(AR) $@ $^
+	$(CC) $(CFLAGS) $(PROGRAM) $(OBJECTS) $(LDFLAGS) -L$(LIBFT_DIR) -lftprintf -o $(PROGRAMME_OUT)
 	@echo ""
 	@echo ""
-	@echo "$(MAGENTA)>>>>> $(INFO) compiled!$(DEF_COLOR)"
-
-# Rule to compile the main program with the library
-$(NAME): $(LIBRARY) $(OBJECTS_PROGRAM)
-	@echo "              $(YELLOW)**** Compiling: $(NAME) ****$(DEF_COLOR)"
-	$(CC) $(CFLAGS) $(OBJECTS_PROGRAM) $(LIBRARY) $(CFLAGS_MLX) -o $(NAME)
-	@echo "$(MAGENTA)>>>>> $(NAME) compiled!$(DEF_COLOR)"
-	@echo ""
-	@echo "$(GREEN)          () ()$(DEF_COLOR)"
+	@echo "$(GREEN)          () () $(DEF_COLOR)"
 	@echo "$(GREEN)          (>.<) $(DEF_COLOR)"
 	@echo "$(GREEN)          ( . ) $(DEF_COLOR)"
-	@echo "$(GREEN)           n_n $(DEF_COLOR)"
-#	$(CC) $(CFLAGS) $(CFLAGS_MLX) $(PROGRAMME) -o $(PROGRAMME_OUT)
-	@echo ""
-	@echo "$(MAGENTA)>>>>> Programme : $(NAME) compiled!$(DEF_COLOR)"
-	@echo ""
-#	@echo "$(CYAN)>>>>> Launching $(PROGRAMME_OUT) with arguments : $(ARGS)$(DEF_COLOR)"
-	@echo ""
-#	./$(PROGRAMME_OUT) $(ARGS)
-
-# Rule to compile individual object files from source files
-%.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -Imlx_linux -c $< -o $@
+	@echo "$(GREEN)           n_n  $(DEF_COLOR)"
+	@echo "$(MAGENTA)>>>>> $(INFO) compiled!$(DEF_COLOR)"
 
 clean:
-	$(RM) $(OBJECTS_LIBFT) $(OBJECTS_PRINTF) $(OBJECTS_PROGRAM)
-	@echo "$(MAGENTA)CLEAN OBJECTS FOR :  $(OBJECTS_LIBFT) $(OBJECTS_PRINTF) $(OBJECTS_PROGRAM) ! $(DEF_COLOR)"
+	$(RM) $(OBJECTS) $(NAME) $(PROGRAMME_OUT)
+	$(MAKE) -C $(LIBFT_DIR) clean
+	@echo "$(MAGENTA)CLEAN OBJECTS FOR :  $(OBJECTS) ! $(DEF_COLOR)"
 	
 fclean: clean
-	$(RM) $(NAME) $(LIBRARY)
+	$(RM) $(PROGRAMME_OUT)
+	$(MAKE) -C $(LIBFT_DIR) fclean
 	@echo "$(MAGENTA)CLEAN NAME FOR :  $(OBJECTS) ! $(DEF_COLOR)"
-
 
 re: fclean all
 
-.PHONY: clean fclean all re
+.PHONY: clean fclean all re bonus
