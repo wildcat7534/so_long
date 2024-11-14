@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:23:38 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 22:09:43 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:49:47 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_game
 	int				nb_exits;
 }					t_game;
 
+void				ft_count_size(t_game *g);
 int					ft_verif_map(t_game *game);
 int					ft_verif_wall(t_game *game);
 int					ft_verif_wall2(t_game *game, int y);

@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 07:48:44 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 22:30:10 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:57:25 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_init_data(t_game *g)
 {
 	g->map_cpy = NULL;
 	g->map.map = ft_split(g->map_line, '\n');
-	g->nb_collectibles = 0;
+	g->nb_collectibles = ft_count_collect(g);
 	g->count_collectibles = ft_count_collect(g);
 	g->map_cpy = ft_split(g->map_line, '\n');
 	if (g->map.map == NULL || g->map_cpy == NULL)
@@ -110,7 +110,6 @@ void	ft_make_map(t_game *g)
 		i++;
 	}
 	mlx_key_hook(g->d.win_ptr, &perso_keyhook, g);
-	g->nb_collectibles = ft_count_collect(g);
 	mlx_hook(g->d.win_ptr, 17, 0, &perso_mouse, g);
 	mlx_loop(g->d.mlx_ptr);
 	ft_free_mlx(g);

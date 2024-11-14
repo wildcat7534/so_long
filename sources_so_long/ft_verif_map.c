@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 04:17:09 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 05:32:15 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:50:34 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_count_collect(t_game *g)
 
 	y = 0;
 	nb = 0;
+	ft_count_size(g);
 	while (g->map.map[y] != NULL)
 	{
 		x = 0;

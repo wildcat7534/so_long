@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 06:53:35 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 22:09:59 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:51:40 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,8 @@ int	ft_check_max(t_game *g)
 	{
 		write(2, "Error\nNo collectible\n", 22);
 		ft_free_dtab(g->map_cpy);
-		ft_free_mlx(g);
+		ft_free_dtab(g->map.map);
+		//ft_free_mlx(g);
 		exit(0);
 		return (1);
 	}
