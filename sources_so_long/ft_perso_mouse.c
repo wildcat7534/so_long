@@ -6,14 +6,14 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 16:31:40 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/12 16:33:38 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 05:33:55 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-int	perso_mouse(t_game *game)
+int	perso_mouse(t_game *g)
 {
-	ft_free_mlx(game);
+	ft_free_mlx(g);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 04:17:09 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/13 04:33:38 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 05:32:15 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-int	ft_count_collect(t_game *game)
+int	ft_count_collect(t_game *g)
 {
 	int	x;
 	int	y;
@@ -20,12 +20,12 @@ int	ft_count_collect(t_game *game)
 
 	y = 0;
 	nb = 0;
-	while (game->map.map[y] != NULL)
+	while (g->map.map[y] != NULL)
 	{
 		x = 0;
-		while (game->map.map[y][x] != '\0')
+		while (g->map.map[y][x] != '\0')
 		{
-			if (game->map.map[y][x] == 'C')
+			if (g->map.map[y][x] == 'C')
 				nb++;
 			x++;
 		}
@@ -34,19 +34,19 @@ int	ft_count_collect(t_game *game)
 	return (nb);
 }
 
-int	ft_verif_all_char(t_game *game)
+int	ft_verif_all_char(t_game *g)
 {
 	int	x;
 	int	y;
 	int	check;
 
 	y = 0;
-	while (game->map.map[y] != NULL)
+	while (g->map.map[y] != NULL)
 	{
 		x = 0;
-		while (game->map.map[y][x] != '\0')
+		while (g->map.map[y][x] != '\0')
 		{
-			check = game->map.map[y][x];
+			check = g->map.map[y][x];
 			if (check != '1' && check != '0' && check != 'P' && check != 'C'
 				&& check != 'E')
 				return (1);
@@ -57,7 +57,7 @@ int	ft_verif_all_char(t_game *game)
 	return (0);
 }
 
-int	ft_verif_p_e(t_game *game)
+int	ft_verif_p_e(t_game *g)
 {
 	int	x;
 	int	y;
@@ -67,14 +67,14 @@ int	ft_verif_p_e(t_game *game)
 	y = 0;
 	position = 0;
 	exit = 0;
-	while (game->map.map[y] != NULL)
+	while (g->map.map[y] != NULL)
 	{
 		x = 0;
-		while (game->map.map[y][x] != '\0')
+		while (g->map.map[y][x] != '\0')
 		{
-			if (game->map.map[y][x] == 'P')
+			if (g->map.map[y][x] == 'P')
 				position++;
-			if (game->map.map[y][x] == 'E')
+			if (g->map.map[y][x] == 'E')
 				exit++;
 			x++;
 		}
@@ -84,4 +84,3 @@ int	ft_verif_p_e(t_game *game)
 		return (1);
 	return (0);
 }
-

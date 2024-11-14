@@ -6,160 +6,118 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 15:28:44 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/13 09:33:19 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 05:50:17 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-int	perso_keyhook(int keysym, t_game *game)
+int	perso_keyhook(int keysym, t_game *g)
 {
 	if (keysym == XK_Escape)
 	{
-		ft_free_mlx(game);
+		ft_free_mlx(g);
 		exit(0);
 	}
 	if (keysym == XK_w || keysym == XK_Up)
-		ft_move_up(game);
+		ft_move_up(g);
 	if (keysym == XK_s || keysym == XK_Down)
-		ft_move_down(game);
+		ft_move_down(g);
 	if (keysym == XK_a || keysym == XK_Left)
-		ft_move_left(game);
+		ft_move_left(g);
 	if (keysym == XK_d || keysym == XK_Right)
-		ft_move_right(game);
+		ft_move_right(g);
 	return (0);
 }
 
-void	ft_move_left(t_game *game)
+void	ft_move_left(t_game *g)
 {
-	if (game->map.map[game->player.y][game->player.x - 1] == '1')
+	if (g->map.map[g->p.y][g->p.x - 1] == '1')
+		return ;
+	else if (g->map.map[g->p.y][g->p.x] == 'E')
 	{
-		ft_printf("Error,\nWall\n", 0);
-	}
-	else if (game->map.map[game->player.y][game->player.x] == 'E')
-	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.exit, game->player.x * TL, game->player.y * TL);
-		game->player.x--;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.player, game->player.x * TL, game->player.y * TL);
+		g->nb_moves++;
+		ft_printf("nb_moves = %d\n", g->nb_moves);
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.exit, g->p.x
+			* TL, g->p.y * TL);
+		g->p.x--;
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.player,
+			g->p.x * TL, g->p.y * TL);
 	}
 	else
+		mv_left(g);
+	if (g->map.map[g->p.y][g->p.x] == 'C')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.floor, game->player.x * TL, game->player.y * TL);
-		game->player.x--;
-		if (game->map.map[game->player.y][game->player.x] == 'E')
-			game_over(game);
-		else
-		{
-			mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-				game->img.player, game->player.x * TL, game->player.y * TL);
-		}
-	}
-	if (game->map.map[game->player.y][game->player.x] == 'C')
-	{
-		game->count_collectibles++;
-		game->map.map[game->player.y][game->player.x] = '0';
+		g->count_collectibles++;
+		g->map.map[g->p.y][g->p.x] = '0';
 	}
 }
 
-void	ft_move_right(t_game *game)
+void	ft_move_right(t_game *g)
 {
-	if (game->map.map[game->player.y][game->player.x + 1] == '1')
+	if (g->map.map[g->p.y][g->p.x + 1] == '1')
+		return ;
+	else if (g->map.map[g->p.y][g->p.x] == 'E')
 	{
-		ft_printf("Error,\nWall\n", 0);
-	}
-	else if (game->map.map[game->player.y][game->player.x] == 'E')
-	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.exit, game->player.x * TL, game->player.y * TL);
-		game->player.x++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.player, game->player.x * TL, game->player.y * TL);
+		g->nb_moves++;
+		ft_printf("nb_moves = %d\n", g->nb_moves);
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.exit, g->p.x
+			* TL, g->p.y * TL);
+		g->p.x++;
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.player,
+			g->p.x * TL, g->p.y * TL);
 	}
 	else
+		mv_right(g);
+	if (g->map.map[g->p.y][g->p.x] == 'C')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.floor, game->player.x * TL, game->player.y * TL);
-		game->player.x++;
-		if (game->map.map[game->player.y][game->player.x] == 'E')
-			game_over(game);
-		else
-			mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-				game->img.player, game->player.x * TL, game->player.y * TL);
-	}
-	if (game->map.map[game->player.y][game->player.x] == 'C')
-	{
-		game->count_collectibles++;
-		game->map.map[game->player.y][game->player.x] = '0';
+		g->count_collectibles++;
+		g->map.map[g->p.y][g->p.x] = '0';
 	}
 }
 
-void	ft_move_up(t_game *game)
+void	ft_move_up(t_game *g)
 {
-	if (game->map.map[game->player.y - 1][game->player.x] == '1')
-		ft_printf("Error,\nWall\n", 0);
-	else if (game->map.map[game->player.y][game->player.x] == 'E')
+	if (g->map.map[g->p.y - 1][g->p.x] == '1')
+		return ;
+	else if (g->map.map[g->p.y][g->p.x] == 'E')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.exit, game->player.x * TL, game->player.y * TL);
-		game->player.y--;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.player, game->player.x * TL, game->player.y * TL);
+		g->nb_moves++;
+		ft_printf("nb_moves = %d\n", g->nb_moves);
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.exit, g->p.x
+			* TL, g->p.y * TL);
+		g->p.y--;
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.player,
+			g->p.x * TL, g->p.y * TL);
 	}
 	else
+		mv_up(g);
+	if (g->map.map[g->p.y][g->p.x] == 'C')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.floor, game->player.x * TL, game->player.y * TL);
-		game->player.y--;
-		if (game->map.map[game->player.y][game->player.x] == 'E')
-			game_over(game);
-		else
-			mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-				game->img.player, game->player.x * TL, game->player.y * TL);
-	}
-	if (game->map.map[game->player.y][game->player.x] == 'C')
-	{
-		game->count_collectibles++;
-		game->map.map[game->player.y][game->player.x] = '0';
+		g->count_collectibles++;
+		g->map.map[g->p.y][g->p.x] = '0';
 	}
 }
 
-void	ft_move_down(t_game *game)
+void	ft_move_down(t_game *g)
 {
-	if (game->map.map[game->player.y + 1][game->player.x] == '1')
-		ft_printf("Error,\nWall\n", 0);
-	else if (game->map.map[game->player.y][game->player.x] == 'E')
+	if (g->map.map[g->p.y + 1][g->p.x] == '1')
+		return ;
+	else if (g->map.map[g->p.y][g->p.x] == 'E')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.exit, game->player.x * TL, game->player.y * TL);
-		game->player.y++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.player, game->player.x * TL, game->player.y * TL);
+		g->nb_moves++;
+		ft_printf("nb_moves = %d\n", g->nb_moves);
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.exit, g->p.x
+			* TL, g->p.y * TL);
+		g->p.y++;
+		mlx_put_image_to_window(g->d.mlx_ptr, g->d.win_ptr, g->img.player,
+			g->p.x * TL, g->p.y * TL);
 	}
 	else
+		mv_down(g);
+	if (g->map.map[g->p.y][g->p.x] == 'C')
 	{
-		game->nb_moves++;
-		mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-			game->img.floor, game->player.x * TL, game->player.y * TL);
-		game->player.y++;
-		if (game->map.map[game->player.y][game->player.x] == 'E')
-			game_over(game);
-		else
-			mlx_put_image_to_window(game->data.mlx_ptr, game->data.win_ptr,
-				game->img.player, game->player.x * TL, game->player.y * TL);
-	}
-	if (game->map.map[game->player.y][game->player.x] == 'C')
-	{
-		game->count_collectibles++;
-		game->map.map[game->player.y][game->player.x] = '0';
+		g->count_collectibles++;
+		g->map.map[g->p.y][g->p.x] = '0';
 	}
 }

@@ -6,94 +6,93 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 07:48:44 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/13 21:50:40 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 06:25:34 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	ft_init_data(t_game *game)
+void	ft_init_data(t_game *g)
 {
-	game->map_cpy = NULL;
-	game->map.map = ft_split(game->map_line, '\n');
-	ft_p_coor(game);
-	ft_e_coor(game);
-	game->nb_collectibles = 0;
-	game->count_collectibles = ft_count_collect(game);
-	game->map_cpy = ft_split(game->map_line, '\n');
-	if (game->map.map == NULL || game->map_cpy == NULL)
+	g->map_cpy = NULL;
+	g->map.map = ft_split(g->map_line, '\n');
+	ft_p_coor(g);
+	ft_e_coor(g);
+	g->nb_collectibles = 0;
+	g->count_collectibles = ft_count_collect(g);
+	g->map_cpy = ft_split(g->map_line, '\n');
+	if (g->map.map == NULL || g->map_cpy == NULL)
 	{
-		ft_printf("Error\nmem alloc split error\n");
-		free(game->map_line);
-		ft_free_dtab(game->map.map);
-		ft_free_dtab(game->map_cpy);
+		write(2, "Error\nmem alloc split error\n", 28);
+		free(g->map_line);
+		ft_free_dtab(g->map.map);
+		ft_free_dtab(g->map_cpy);
 		exit(1);
 	}
-	if (ft_verif_p_e(game))
+	if (ft_verif_p_e(g))
 	{
-		ft_printf("Error\ncharacters error\n");
-		free(game->map_line);
-		ft_free_dtab(game->map.map);
-		ft_free_dtab(game->map_cpy);
+		write(2, "Error\ncharacters error\n", 24);
+		free(g->map_line);
+		ft_free_dtab(g->map.map);
+		ft_free_dtab(g->map_cpy);
 		exit(1);
 	}
-	game->nb_moves = 0;
-	game->map.width = 0;
-	free(game->map_line);
+	g->nb_moves = 0;
+	free(g->map_line);
 }
 
-void	ft_map_line(t_game *game)
+void	ft_map_line(t_game *g)
 {
 	int	line_empty;
 
 	line_empty = 0;
-	game->map_line = ft_strdup("");
-	while (game->line != NULL)
+	g->map_line = ft_strdup("");
+	while (g->line != NULL)
 	{
-		game->map_line = ft_strjoin(game->map_line, game->line);
-		free(game->line);
-		game->line = get_next_line(game->fd);
-		if (game->line && game->line[0] && game->line[0] != '\n' && line_empty)
+		g->map_line = ft_strjoin(g->map_line, g->line);
+		free(g->line);
+		g->line = get_next_line(g->fd);
+		if (g->line && g->line[0] && g->line[0] != '\n' && line_empty)
 		{
-			ft_printf("Error\nMap_line is not valid.\n");
-			free(game->map_line);
-			free(game->line);
+			write(2, "Error\nMap_line is not valid.\n", 29);
+			free(g->map_line);
+			free(g->line);
 			exit(1);
 		}
-		if (game->line && game->line[0] == '\n')
+		if (g->line && g->line[0] == '\n')
 		{
-			ft_printf("Error\nMap_line is empty.\n");
+			write(2, "Error\nMap_line is empty.\n", 26);
 			line_empty = 1;
 		}
 	}
-	ft_init_data(game);
+	ft_init_data(g);
 }
 
-int	ft_make_windows(t_game *game)
+int	ft_make_windows(t_game *g)
 {
-	game->window.width = game->map.width * TL;
-	game->window.height = game->map.height * TL;
-	game->data.mlx_ptr = mlx_init();
-	if (!game->data.mlx_ptr)
+	g->window.width = g->map.width * TL;
+	g->window.height = g->map.height * TL;
+	g->d.mlx_ptr = mlx_init();
+	if (!g->d.mlx_ptr)
 		return (1);
-	game->data.win_ptr = mlx_new_window(game->data.mlx_ptr, game->window.width,
-			game->window.height, "so_long");
-	if (!game->data.win_ptr)
+	g->d.win_ptr = mlx_new_window(g->d.mlx_ptr, g->window.width,
+			g->window.height, "Pelufa&Fofina");
+	if (!g->d.win_ptr)
 	{
-		ft_printf("Error\n* fail : mlx_new_window\n");
-		ft_free_mlx(game);
+		write(2, "Error\n* fail : mlx_new_window\n", 31);
+		ft_free_mlx(g);
 		return (1);
 	}
-	close(game->fd);
-	if (!game->data.win_ptr)
+	close(g->fd);
+	if (!g->d.win_ptr)
 	{
-		ft_free_mlx(game);
+		ft_free_mlx(g);
 		return (1);
 	}
 	return (0);
 }
 
-void	ft_make_map(t_game *game)
+void	ft_make_map(t_game *g)
 {
 	int	i;
 	int	y;
@@ -102,16 +101,16 @@ void	ft_make_map(t_game *game)
 	i = 0;
 	y = 0;
 	x = 0;
-	ft_init_img(game);
-	while (game->map.map[i] != NULL)
+	ft_init_img(g);
+	while (g->map.map[i] != NULL)
 	{
-		ft_printer(game, game->map.map[i], x, y);
+		ft_printer(g, g->map.map[i], x, y);
 		y += TL;
 		i++;
 	}
-	mlx_key_hook(game->data.win_ptr, &perso_keyhook, game);
-	game->nb_collectibles = ft_count_collect(game);
-	mlx_hook(game->data.win_ptr, 17, 0, &perso_mouse, game);
-	mlx_loop(game->data.mlx_ptr);
-	ft_free_mlx(game);
+	mlx_key_hook(g->d.win_ptr, &perso_keyhook, g);
+	g->nb_collectibles = ft_count_collect(g);
+	mlx_hook(g->d.win_ptr, 17, 0, &perso_mouse, g);
+	mlx_loop(g->d.mlx_ptr);
+	ft_free_mlx(g);
 }

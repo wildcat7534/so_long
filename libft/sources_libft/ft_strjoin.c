@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:55:24 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/12 17:34:40 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 05:52:56 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,9 @@ char	*ft_strjoin(char *s1, char const *s2)
 			i++;
 		}
 	}
-	j = 0;
-	while (s2[j])
-	{
+	j = -1;
+	while (s2[++j])
 		new_str[i + j] = s2[j];
-		j++;
-	}
 	new_str[i + j] = '\0';
 	free(s1);
 	s1 = NULL;

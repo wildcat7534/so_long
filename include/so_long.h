@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:23:38 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/13 08:57:07 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 05:47:13 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ typedef struct s_window
 
 typedef struct s_game
 {
-	t_data			data;
+	t_data			d;
 	t_map			map;
-	t_player		player;
+	t_player		p;
 	t_img			img;
 	t_collectible	*collectibles;
 	t_exit			exit;
@@ -86,21 +86,6 @@ typedef struct s_game
 	int				nb_exits;
 }					t_game;
 
-/*int					handle_no_event(void *data);
-void				img_pixel_put(t_game *game, int x, int y, int color);
-void				free_mlx(t_game *game);
-int					render(t_game *game);
-int					render_map(t_game *game);
-int					handle_input(t_game *game, int keysym);
-int					update_player(t_game *game, int keysym);
-void				init_game(t_game *game);
-void				init_map(t_map *map);
-void				init_player(t_player *player);
-void				render_player(t_game *game);
-void	init_collectibles(t_collectible *collectibles,
-						int nb_collectibles);
-void				init_exits(t_exit *exits, int nb_exits);
-int	load_map(t_map *map, char *filename);*/
 int					ft_verif_map(t_game *game);
 int					ft_verif_wall(t_game *game);
 int					ft_verif_wall2(t_game *game, int y);
@@ -128,19 +113,17 @@ void				ft_printer(t_game *game, char *line, int x, int y);
 int					perso_keyhook(int keysym, t_game *game);
 int					perso_mouse(t_game *game);
 void				ft_move_left(t_game *game);
+void				mv_left(t_game *game);
 void				ft_move_right(t_game *game);
+void				mv_right(t_game *game);
 void				ft_move_up(t_game *game);
+void				mv_up(t_game *game);
 void				ft_move_down(t_game *game);
+void				mv_down(t_game *game);
 void				game_over(t_game *game);
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
-# define RED_PIXEL 0x00FF0000
-# define GREEN_PIXEL 0x0000FF00
-# define BLUE_PIXEL 0x000000FF
-# define WHITE_PIXEL 0x00FFFFFF
-# define BLACK_PIXEL 0x00000000
-# define YELLOW_PIXEL 0x00FFFF00
 # define TL 55
 
 #endif

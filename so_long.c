@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 18:22:50 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/13 04:13:53 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 06:25:34 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,27 @@
 
 int	main(int argc, char **argv)
 {
-	t_game	game;
+	t_game	g;
 
 	if (ft_verif_file(argc, argv[1]))
 		return (1);
-	game.fd = open(argv[1], O_RDONLY);
-	if (game.fd == -1)
+	g.fd = open(argv[1], O_RDONLY);
+	if (g.fd == -1)
 	{
-		ft_printf("Error\nFile not found\n");
+		write(2, "Error\nFile not found\n", 21);
 		return (1);
 	}
-	game.line = get_next_line(game.fd);
-	if (!game.line)
+	g.line = get_next_line(g.fd);
+	if (!g.line)
 	{
-		ft_printf("Error\nFile is empty\n");
+		write(2, "Error\nFile is empty\n", 21);
 		return (1);
 	}
-	ft_map_line(&game);
-	if (ft_check_max(&game))
-	{
-		ft_free_mlx(&game);
-		return (1);
-	}
-	if (ft_make_windows(&game))
+	ft_map_line(&g);
+	if (ft_check_max(&g))
+		return (ft_free_mlx(&g), 1);
+	if (ft_make_windows(&g))
 		return (0);
-	ft_printf("ft_make_windows\n");
-	ft_printf("ft_make_map\n");
-	ft_make_map(&game);
+	ft_make_map(&g);
 	return (0);
 }

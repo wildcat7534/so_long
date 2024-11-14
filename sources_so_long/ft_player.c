@@ -6,39 +6,40 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 04:03:54 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/12 17:41:53 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 06:16:01 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/so_long.h"
 
-void	ft_p_coor(t_game *game)
+void	ft_p_coor(t_game *g)
 {
-	game->player.x = 0;
-	game->player.y = 0;
-	while (game->map.map[game->player.y][game->player.x] != 'P')
+	g->p.x = 0;
+	g->p.y = 0;
+	while (g->map.map[g->p.y][g->p.x] != 'P' && g->map.map[g->p.y][g->p.x] != '\0')
 	{
-		if (game->map.map[game->player.y][game->player.x] == '\0')
+		if (g->map.map[g->p.y][g->p.x] == '\0')
 		{
-			game->player.y++;
-			game->player.x = 0;
+			g->p.y++;
+			g->p.x = 0;
 		}
 		else
-			game->player.x++;
+			g->p.x++;
 	}
 }
-void	ft_e_coor(t_game *game)
+
+void	ft_e_coor(t_game *g)
 {
-	game->exit.x = 0;
-	game->exit.y = 0;
-	while (game->map.map[game->exit.y][game->exit.x] != 'E')
+	g->exit.x = 0;
+	g->exit.y = 0;
+	while (g->map.map[g->exit.y][g->exit.x] != 'E' && g->map.map[g->exit.y][g->exit.x] != '\0')
 	{
-		if (game->map.map[game->exit.y][game->exit.x] == '\0')
+		if (g->map.map[g->exit.y][g->exit.x] == '\0')
 		{
-			game->exit.y++;
-			game->exit.x = 0;
+			g->exit.y++;
+			g->exit.x = 0;
 		}
 		else
-			game->exit.x++;
+			g->exit.x++;
 	}
 }

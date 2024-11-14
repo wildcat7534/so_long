@@ -9,7 +9,7 @@ HEADERS = so_long.h mlx_linux/mlx.h
 SOURCES_SO_LONG = sources_so_long/ft_free_mlx.c sources_so_long/ft_make.c \
 				sources_so_long/ft_parser.c sources_so_long/ft_perso_key.c sources_so_long/ft_perso_mouse.c \
 				sources_so_long/ft_player.c sources_so_long/ft_printer.c sources_so_long/ft_verif_map.c \
-				sources_so_long/ft_verif.c sources_so_long/ft_init.c 
+				sources_so_long/ft_verif.c sources_so_long/ft_init.c sources_so_long/ft_perso_key2.c \
 
 OBJECTS = $(SOURCES_SO_LONG:.c=.o)
 
