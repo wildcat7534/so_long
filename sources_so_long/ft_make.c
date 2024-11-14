@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 07:48:44 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 06:25:34 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 22:30:10 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	ft_init_data(t_game *g)
 {
 	g->map_cpy = NULL;
 	g->map.map = ft_split(g->map_line, '\n');
-	ft_p_coor(g);
-	ft_e_coor(g);
 	g->nb_collectibles = 0;
 	g->count_collectibles = ft_count_collect(g);
 	g->map_cpy = ft_split(g->map_line, '\n');
@@ -37,6 +35,8 @@ void	ft_init_data(t_game *g)
 		ft_free_dtab(g->map_cpy);
 		exit(1);
 	}
+	ft_p_coor(g);
+	ft_e_coor(g);
 	g->nb_moves = 0;
 	free(g->map_line);
 }
@@ -52,11 +52,12 @@ void	ft_map_line(t_game *g)
 		g->map_line = ft_strjoin(g->map_line, g->line);
 		free(g->line);
 		g->line = get_next_line(g->fd);
-		if (g->line && g->line[0] && g->line[0] != '\n' && line_empty)
+		if (g->line && g->line[0] && g->line[0] != '\n' && line_empty == 1)
 		{
 			write(2, "Error\nMap_line is not valid.\n", 29);
-			free(g->map_line);
 			free(g->line);
+			free(g->map_line);
+			g->line = NULL;
 			exit(1);
 		}
 		if (g->line && g->line[0] == '\n')

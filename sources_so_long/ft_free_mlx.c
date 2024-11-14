@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 01:17:04 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 05:52:56 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 21:07:52 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,23 @@
 
 void	ft_free_mlx(t_game *g)
 {
-	ft_destroy_img(g);
-	if (g->d.mlx_ptr != NULL)
-		mlx_loop_end(g->d.mlx_ptr);
 	if (g->d.win_ptr != NULL)
+	{
 		mlx_destroy_window(g->d.mlx_ptr, g->d.win_ptr);
-	if (g->d.mlx_ptr != NULL)
-		mlx_destroy_display(g->d.mlx_ptr);
-	ft_free_dtab(g->map.map);
+		//mlx_clear_window(g->d.mlx_ptr, g->d.win_ptr);
+	}
+	ft_destroy_img(g);
+	mlx_destroy_display(g->d.mlx_ptr);
+	if (g->map.map != NULL)
+		ft_free_dtab(g->map.map);
 	free(g->d.mlx_ptr);
-	exit(0);
+	
+/* 	if (g->d.mlx_ptr != NULL)
+		mlx_loop_end(g->d.mlx_ptr); */
+/* 	if (g->map_cpy != NULL)
+		ft_free_dtab(g->map_cpy); */
+	//free(g->d.mlx_ptr);
+	exit(EXIT_SUCCESS);
 }
 
 void	ft_destroy_img(t_game *g)

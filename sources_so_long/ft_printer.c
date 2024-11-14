@@ -6,7 +6,7 @@
 /*   By: cmassol <cmassol@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 09:28:01 by cmassol           #+#    #+#             */
-/*   Updated: 2024/11/14 05:51:01 by cmassol          ###   ########.fr       */
+/*   Updated: 2024/11/14 20:48:47 by cmassol          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	game_over(t_game *g)
 	{
 		ft_printf("****[~][~]WiNNeR[~][~]****\n", 0);
 		ft_free_mlx(g);
+		//free(g->d.mlx_ptr);
 		exit(0);
-		free(g->d.mlx_ptr);
 	}
 }
